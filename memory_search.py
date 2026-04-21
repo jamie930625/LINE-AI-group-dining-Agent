@@ -1,3 +1,19 @@
+# 定義函數 memory_search(關鍵字陣列 queries):
+#     1. 從檔案庫 (MEMORY.md) 載入所有長期記憶
+#     2. 將記憶內容切分成獨立的段落 (Chunks)
+#     3. 將傳入的 queries 結合成單一搜尋字串
+    
+#     4. 建立空的 結果清單
+#     5. 針對每一個 Chunk 進行評分：
+#         a. 字面比對分數 (s1) = 計算 Chunk 與搜尋字串的關鍵字重疊度 (如 BM25 演算法)
+#         b. 語意比對分數 (s2) = 取得 Chunk 與搜尋字串的 Embedding 向量，計算餘弦相似度
+#         c. 最終分數 (s) = (權重A * s1) + (權重B * s2)
+#         d. 將 (Chunk, 最終分數) 存入 結果清單
+
+#     6. 依據最終分數，將 結果清單 由高到低排序
+#     7. 擷取分數最高的前 K 個 Chunks
+#     8. 將這些 Chunks 打包成字串，回傳給 Agent (LLM) 作為 Context
+
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 # 假設專案內已有自建的工具庫，處理 Embedding 與 BM25
